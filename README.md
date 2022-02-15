@@ -1,0 +1,3 @@
+# CoreBundle
+
+Core de symfony
