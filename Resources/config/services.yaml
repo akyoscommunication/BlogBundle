@@ -19,3 +19,8 @@ services:
     twig.extension.globals_extension:
         alias: 'Akyos\BlogBundle\Twig\GlobalsExtension'
         public: true
+
+    Akyos\CmsBundle\Form\Type\CustomFields\CustomFieldValueType:
+        resource: 'Akyos\BlogBundle\Form\Type\CustomFields\CustomFieldValueType'
+        tags: [ 'controller.service_arguments' ]
+        public: true

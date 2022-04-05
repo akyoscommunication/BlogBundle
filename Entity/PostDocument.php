@@ -2,7 +2,7 @@
 
 namespace Akyos\BlogBundle\Entity;
 
-use Akyos\Corebundle\Annotations\SlugRedirect;
+use Akyos\Cmsbundle\Annotations\SlugRedirect;
 use Akyos\BlogBundle\Repository\PostDocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;

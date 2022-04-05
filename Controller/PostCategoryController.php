@@ -6,6 +6,7 @@ use Akyos\BlogBundle\Entity\PostCategory;
 use Akyos\BlogBundle\Form\PostCategoryType;
 use Akyos\BlogBundle\Repository\PostCategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/blog/categories", name="blog_post_category_")
- * @isGranted("categories-darticles")
+ * @IsGranted("categories-darticles")
  */
 class PostCategoryController extends AbstractController
 {

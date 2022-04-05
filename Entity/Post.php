@@ -2,7 +2,7 @@
 
 namespace Akyos\BlogBundle\Entity;
 
-use Akyos\CoreBundle\Annotations\SlugRedirect;
+use Akyos\CmsBundle\Annotations\SlugRedirect;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

@@ -2,7 +2,7 @@
 
 namespace Akyos\BlogBundle\Entity;
 
-use Akyos\CoreBundle\Annotations\SlugRedirect;
+use Akyos\CmsBundle\Annotations\SlugRedirect;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

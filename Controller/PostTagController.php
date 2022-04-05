@@ -6,6 +6,7 @@ use Akyos\BlogBundle\Entity\PostTag;
 use Akyos\BlogBundle\Form\PostTagType;
 use Akyos\BlogBundle\Repository\PostTagRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/blog/etiquettes", name="blog_post_tag_")
- * @isGranted("etiquette-darticles")
+ * @IsGranted("etiquette-darticles")
  */
 class PostTagController extends AbstractController
 {

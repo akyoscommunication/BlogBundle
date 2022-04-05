@@ -1,6 +1,6 @@
 <?php
 
-namespace Akyos\BlogBundle\Services;
+namespace Akyos\BlogBundle\Service;
 
 use Akyos\CmsBundle\Entity\AdminAccess;
 use Akyos\CmsBundle\Repository\AdminAccessRepository;

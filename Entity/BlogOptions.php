@@ -22,26 +22,6 @@ class BlogOptions
 	private $hasPosts;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="Akyos\BlogBundle\Entity\Page", cascade={"persist", "remove"})
-	 */
-	private $homepage;
-	
-	/**
-	 * @ORM\Column(type="simple_array", nullable=true)
-	 */
-	private $hasArchiveEntities = [];
-	
-	/**
-	 * @ORM\Column(type="simple_array", nullable=true)
-	 */
-	private $hasSingleEntities = [];
-	
-	/**
-	 * @ORM\Column(type="simple_array", nullable=true)
-	 */
-	private $hasSeoEntities = [];
-
-	/**
 	 * @ORM\Column(type="boolean", nullable=true)
 	 */
 	private $hasPostDocuments;
@@ -64,54 +44,6 @@ class BlogOptions
 	public function setHasPosts(bool $hasPosts): self
 	{
 		$this->hasPosts = $hasPosts;
-		
-		return $this;
-	}
-	
-	public function getHomepage(): ?Page
-	{
-		return $this->homepage;
-	}
-	
-	public function setHomepage(?Page $homepage): self
-	{
-		$this->homepage = $homepage;
-		
-		return $this;
-	}
-	
-	public function getHasArchiveEntities(): ?array
-	{
-		return $this->hasArchiveEntities;
-	}
-	
-	public function setHasArchiveEntities(?array $hasArchiveEntities): self
-	{
-		$this->hasArchiveEntities = $hasArchiveEntities;
-		
-		return $this;
-	}
-	
-	public function getHasSingleEntities(): ?array
-	{
-		return $this->hasSingleEntities;
-	}
-	
-	public function setHasSingleEntities(?array $hasSingleEntities): self
-	{
-		$this->hasSingleEntities = $hasSingleEntities;
-		
-		return $this;
-	}
-	
-	public function getHasSeoEntities(): ?array
-	{
-		return $this->hasSeoEntities;
-	}
-	
-	public function setHasSeoEntities(?array $hasSeoEntities): self
-	{
-		$this->hasSeoEntities = $hasSeoEntities;
 		
 		return $this;
 	}

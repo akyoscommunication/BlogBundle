@@ -3,17 +3,18 @@
 namespace Akyos\BlogBundle\Controller;
 
 use Akyos\BlogBundle\Entity\Post;
+use Akyos\BlogBundle\Repository\BlogOptionsRepository;
 use Akyos\CoreBundle\Form\Handler\CrudHandler;
 use Akyos\BlogBundle\Form\Type\Post\PostType;
 use Akyos\BlogBundle\Form\Type\Post\NewPostType;
-use Akyos\BlogBundle\Repository\CoreOptionsRepository;
 use Akyos\BlogBundle\Repository\PostRepository;
-use Akyos\BlogBundle\Repository\SeoRepository;
-use Akyos\BlogBundle\Services\CoreService;
+use Akyos\CmsBundle\Repository\SeoRepository;
+use Akyos\CmsBundle\Service\CmsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,29 +22,29 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/blog/article", name="blog_post_")
- * @isGranted("liste-des-articles")
+ * @IsGranted("liste-des-articles")
  */
 class PostController extends AbstractController
 {
 	/**
 	 * @Route("/", name="index", methods={"GET", "POST"})
 	 * @param PostRepository $postRepository
-	 * @param CoreOptionsRepository $coreOptionsRepository
+	 * @param BlogOptionsRepository $blogOptionsRepository
 	 * @param PaginatorInterface $paginator
 	 * @param Request $request
 	 * @param CrudHandler $crudHandler
 	 *
 	 * @return Response
 	 */
-	public function index(PostRepository $postRepository, CoreOptionsRepository $coreOptionsRepository, PaginatorInterface $paginator, Request $request, CrudHandler $crudHandler): Response
+	public function index(PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, PaginatorInterface $paginator, Request $request, CrudHandler $crudHandler): Response
 	{
 		$orderPostsByPosition = false;
-		$coreOptions = $coreOptionsRepository->findAll();
-		if ($coreOptions) {
-			if (!$coreOptions[0]->getHasPosts()) {
+		$blogOptions = $blogOptionsRepository->findAll();
+		if ($blogOptions) {
+			if (!$blogOptions[0]->getHasPosts()) {
 				return $this->redirectToRoute('cms_index');
 			}
-			$orderPostsByPosition = $coreOptions[0]->getOrderPostsByPosition();
+			$orderPostsByPosition = $blogOptions[0]->getOrderPostsByPosition();
 		}
 
 		$query = $postRepository->createQueryBuilder('a');
@@ -94,14 +95,14 @@ class PostController extends AbstractController
 	/**
 	 * @Route("/new", name="new", methods={"GET","POST"})
 	 * @param PostRepository $postRepository
-	 * @param CoreOptionsRepository $coreOptionsRepository
+	 * @param BlogOptionsRepository $blogOptionsRepository
 	 *
 	 * @return Response
 	 */
-	public function new(PostRepository $postRepository, CoreOptionsRepository $coreOptionsRepository): Response
+	public function new(PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository): Response
 	{
-		$coreOptions = $coreOptionsRepository->findAll();
-		if ($coreOptions && !$coreOptions[0]->getHasPosts()) {
+		$blogOptions = $blogOptionsRepository->findAll();
+		if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
         }
 
@@ -120,18 +121,18 @@ class PostController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @param Request $request
      * @param Post $post
-     * @param CoreOptionsRepository $coreOptionsRepository
-     * @param CoreService $coreService
+     * @param BlogOptionsRepository $blogOptionsRepository
+     * @param CmsService $cmsService
      * @param ContainerInterface $container
      * @return Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-	public function edit(Request $request, Post $post, CoreOptionsRepository $coreOptionsRepository, CoreService $coreService, ContainerInterface $container): Response
+	public function edit(Request $request, Post $post, BlogOptionsRepository $blogOptionsRepository, CmsService $cmsService, ContainerInterface $container): Response
 	{
 		$entity = get_class($post);
-		$coreOptions = $coreOptionsRepository->findAll();
-		if ($coreOptions && !$coreOptions[0]->getHasPosts()) {
+		$blogOptions = $blogOptionsRepository->findAll();
+		if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
         }
 
@@ -139,13 +140,13 @@ class PostController extends AbstractController
 		$form->handleRequest($request);
 		$classBuilder = 'Akyos\BuilderBundle\AkyosBuilderBundle';
 		$classBuilderOption = 'Akyos\BuilderBundle\Entity\BuilderOptions';
-		if ($coreService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity) && !$form->isSubmitted()) {
+		if ($cmsService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity) && !$form->isSubmitted()) {
             $container->get('render.builder')->initCloneComponents($entity, $post->getId());
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($coreService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {
+            if ($cmsService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {
                 $container->get('render.builder')->tempToProd($entity, $post->getId());
             }
             $this->getDoctrine()->getManager()->flush();
@@ -172,17 +173,17 @@ class PostController extends AbstractController
 	 * @param Request $request
 	 * @param Post $post
 	 * @param PostRepository $postRepository
-	 * @param CoreOptionsRepository $coreOptionsRepository
+	 * @param BlogOptionsRepository $blogOptionsRepository
 	 * @param SeoRepository $seoRepository
-	 * @param CoreService $coreService
+	 * @param CmsService $cmsService
 	 * @param ContainerInterface $container
 	 * @return Response
 	 */
-	public function delete(Request $request, Post $post, PostRepository $postRepository, CoreOptionsRepository $coreOptionsRepository, SeoRepository $seoRepository, CoreService $coreService, ContainerInterface $container): Response
+	public function delete(Request $request, Post $post, PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, SeoRepository $seoRepository, CmsService $cmsService, ContainerInterface $container): Response
 	{
 		$entity = get_class($post);
-		$coreOptions = $coreOptionsRepository->findAll();
-		if ($coreOptions && !$coreOptions[0]->getHasPosts()) {
+		$blogOptions = $blogOptionsRepository->findAll();
+		if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
         }
 
@@ -191,7 +192,7 @@ class PostController extends AbstractController
 
 			$classBuilder = 'Akyos\BuilderBundle\AkyosBuilderBundle';
 			$classBuilderOption = 'Akyos\BuilderBundle\Entity\BuilderOptions';
-			if ($coreService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {
+			if ($cmsService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {
 				$container->get('render.builder')->onDeleteEntity($entity, $post->getId());
 			}
 
