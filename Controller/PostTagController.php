@@ -36,7 +36,7 @@ class PostTagController extends AbstractController
 		}
 		$els = $paginator->paginate($query->getQuery(), $request->query->getInt('page', 1), 12);
 
-		return $this->render('@AkyosCore/crud/index.html.twig', [
+		return $this->render('@AkyosCms/crud/index.html.twig', [
 			'els' => $els,
 			'title' => 'Étiquettes d\'article',
 			'entity' => 'PostTag',
@@ -70,7 +70,7 @@ class PostTagController extends AbstractController
 			return $this->redirectToRoute('blog_post_tag_index');
 		}
 
-		return $this->render('@AkyosCore/crud/new.html.twig', [
+		return $this->render('@AkyosCms/crud/new.html.twig', [
 			'el' => $postTag,
 			'title' => 'Étiquette d\'article',
 			'entity' => 'PostTag',
@@ -97,7 +97,7 @@ class PostTagController extends AbstractController
 			return $this->redirectToRoute('blog_post_tag_index');
 		}
 
-		return $this->render('@AkyosCore/crud/edit.html.twig', [
+		return $this->render('@AkyosCms/crud/edit.html.twig', [
 			'el' => $postTag,
 			'title' => 'Étiquette d\'article',
 			'entity' => 'PostTag',

@@ -49,5 +49,7 @@ class ExtendAdminAccess
 			$this->entityManager->persist($adminAccess);
 			$this->entityManager->flush();
 		}
+
+        return new Response('true');
 	}
 }

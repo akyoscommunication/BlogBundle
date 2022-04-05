@@ -1,4 +1,4 @@
-{% extends '@AkyosCore/layout.html.twig' %}
+{% extends '@AkyosCms/layout.html.twig' %}
 
 {% block title %}Editer le document {{ el.title }}{% endblock %}
 
@@ -123,19 +123,19 @@
                     {% if hasSeo(entity) %}
                         <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tab">
                             {{ render(controller(
-                                'Akyos\\CoreBundle\\Controller\\Back\\SeoController::index',
+                                'Akyos\\CmsBundle\\Controller\\Back\\SeoController::index',
                                 { 'type': entity, 'typeId': el.id, 'route' : route }
                             )) }}
                         </div>
                     {% endif %}
                     {# OPTIONS #}
                     <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
-                        {{ include('@AkyosCore/crud/_delete_form.html.twig') }}
+                        {{ include('@AkyosCms/crud/_delete_form.html.twig') }}
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
-                {% include '@AkyosCore/crud/elements/_sidebar.html.twig' %}
+                {% include '@AkyosCms/crud/elements/_sidebar.html.twig' %}
             </div>
         </div>
     </div>

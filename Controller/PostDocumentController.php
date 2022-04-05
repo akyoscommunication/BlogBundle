@@ -37,7 +37,7 @@ class PostDocumentController extends AbstractController
 			return $this->redirectToRoute('blog_post_edit', ["id" => $post->getId()]);
 		}
 
-		return $this->render('@AkyosCore/post_document/new.html.twig', [
+		return $this->render('@AkyosCms/post_document/new.html.twig', [
 			'parameters' => [
 				'id' => $post->getId(),
 				'tab' => 'postdoc',
@@ -67,7 +67,7 @@ class PostDocumentController extends AbstractController
 			return $this->redirectToRoute('blog_post_edit', ["id" => $post->getId()]);
 		}
 
-		return $this->render('@AkyosCore/post_document/edit.html.twig', [
+		return $this->render('@AkyosCms/post_document/edit.html.twig', [
 			'parameters' => [
 				'id' => $post->getId(),
 				'tab' => 'postdoc',

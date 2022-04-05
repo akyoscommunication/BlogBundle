@@ -22,8 +22,8 @@ class ExtendSidebar
         $template ='';
         if($this->security->isGranted('liste-des-articles') || $this->security->isGranted('etiquette-darticles') || $this->security->isGranted('categories-darticles')) {
             $template .= '<li class="'.(strpos($route, "blog_post_") !== false ? "active" : "").'">';
-                $template .= '<a href="#post" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Blog</a>';
-                $template .= '<ul class="collapse list-unstyled" id="post">';
+                $template .= '<a href="#post_menu_dropdown" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Blog</a>';
+                $template .= '<ul class="collapse list-unstyled" id="post_menu_dropdown">';
                     if ($this->security->isGranted('liste-des-articles')) {
                         $template .= '<li class="' . (strpos($route, "blog_post_index") !== false ? "active" : "") . '"><a href="' . $this->router->generate('blog_post_index') . '">Liste des articles</a></li>';
                     }

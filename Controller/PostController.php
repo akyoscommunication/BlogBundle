@@ -72,7 +72,7 @@ class PostController extends AbstractController
 			return $this->redirectToRoute('blog_post_edit', ['id' => $post->getId()]);
 		}
 
-		return $this->render('@AkyosCore/crud/index.html.twig', [
+		return $this->render('@AkyosCms/crud/index.html.twig', [
 			'els' => $els,
 			'title' => 'Article',
 			'entity' => Post::class,
@@ -158,7 +158,7 @@ class PostController extends AbstractController
             throw $this->createNotFoundException("Formulaire invalide.");
         }
 
-        return $this->render('@AkyosCore/crud/edit.html.twig', [
+        return $this->render('@AkyosCms/crud/edit.html.twig', [
 			'el' => $post,
 			'title' => 'Article',
 			'entity' => $entity,
