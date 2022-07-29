@@ -10,6 +10,7 @@ use Akyos\BlogBundle\Form\Type\Post\NewPostType;
 use Akyos\BlogBundle\Repository\PostRepository;
 use Akyos\CmsBundle\Repository\SeoRepository;
 use Akyos\CmsBundle\Service\CmsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -33,7 +34,6 @@ class PostController extends AbstractController
 	 * @param PaginatorInterface $paginator
 	 * @param Request $request
 	 * @param CrudHandler $crudHandler
-	 *
 	 * @return Response
 	 */
 	public function index(PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, PaginatorInterface $paginator, Request $request, CrudHandler $crudHandler): Response
@@ -91,22 +91,21 @@ class PostController extends AbstractController
 			],
 		]);
 	}
-
+	
 	/**
 	 * @Route("/new", name="new", methods={"GET","POST"})
 	 * @param PostRepository $postRepository
 	 * @param BlogOptionsRepository $blogOptionsRepository
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function new(PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository): Response
+	public function new(PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, EntityManagerInterface $entityManager): Response
 	{
 		$blogOptions = $blogOptionsRepository->findAll();
 		if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
         }
 
-		$entityManager = $this->getDoctrine()->getManager();
 		$post = new Post();
 		$post->setPublished(false);
 		$post->setTitle("Nouvel article");
@@ -116,19 +115,18 @@ class PostController extends AbstractController
 
 		return $this->redirectToRoute('blog_post_edit', ['id' => $post->getId()]);
 	}
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Post $post
-     * @param BlogOptionsRepository $blogOptionsRepository
-     * @param CmsService $cmsService
-     * @param ContainerInterface $container
-     * @return Response
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-	public function edit(Request $request, Post $post, BlogOptionsRepository $blogOptionsRepository, CmsService $cmsService, ContainerInterface $container): Response
+	
+	/**
+	 * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+	 * @param Request $request
+	 * @param Post $post
+	 * @param BlogOptionsRepository $blogOptionsRepository
+	 * @param CmsService $cmsService
+	 * @param ContainerInterface $container
+	 * @param EntityManagerInterface $entityManager
+	 * @return Response
+	 */
+	public function edit(Request $request, Post $post, BlogOptionsRepository $blogOptionsRepository, CmsService $cmsService, ContainerInterface $container, EntityManagerInterface $entityManager): Response
 	{
 		$entity = get_class($post);
 		$blogOptions = $blogOptionsRepository->findAll();
@@ -149,7 +147,7 @@ class PostController extends AbstractController
             if ($cmsService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {
                 $container->get('render.builder')->tempToProd($entity, $post->getId());
             }
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirect($request->getUri());
         }
@@ -167,7 +165,7 @@ class PostController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
+	
 	/**
 	 * @Route("/{id}", name="delete", methods={"DELETE"})
 	 * @param Request $request
@@ -177,9 +175,10 @@ class PostController extends AbstractController
 	 * @param SeoRepository $seoRepository
 	 * @param CmsService $cmsService
 	 * @param ContainerInterface $container
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function delete(Request $request, Post $post, PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, SeoRepository $seoRepository, CmsService $cmsService, ContainerInterface $container): Response
+	public function delete(Request $request, Post $post, PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, SeoRepository $seoRepository, CmsService $cmsService, ContainerInterface $container, EntityManagerInterface $entityManager): Response
 	{
 		$entity = get_class($post);
 		$blogOptions = $blogOptionsRepository->findAll();
@@ -188,8 +187,6 @@ class PostController extends AbstractController
         }
 
 		if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->request->get('_token'))) {
-			$entityManager = $this->getDoctrine()->getManager();
-
 			$classBuilder = 'Akyos\BuilderBundle\AkyosBuilderBundle';
 			$classBuilderOption = 'Akyos\BuilderBundle\Entity\BuilderOptions';
 			if ($cmsService->checkIfBundleEnable($classBuilder, $classBuilderOption, $entity)) {

@@ -5,6 +5,7 @@ namespace Akyos\BlogBundle\Controller;
 use Akyos\BlogBundle\Entity\Post;
 use Akyos\BlogBundle\Entity\PostDocument;
 use Akyos\BlogBundle\Form\Type\Post\PostDocumentType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,10 +20,10 @@ class PostDocumentController extends AbstractController
 	 * @Route("/new/{id}", name="new", methods={"GET","POST"})
 	 * @param Post $post
 	 * @param Request $request
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function new(Post $post, Request $request): Response
+	public function new(Post $post, Request $request, EntityManagerInterface $entityManager): Response
 	{
 		$postDocument = new PostDocument();
 		$form = $this->createForm(PostDocumentType::class, $postDocument);
@@ -30,7 +31,6 @@ class PostDocumentController extends AbstractController
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$postDocument->setPost($post);
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->persist($postDocument);
 			$entityManager->flush();
 
@@ -49,21 +49,22 @@ class PostDocumentController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
+	
 	/**
 	 * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
 	 * @param Request $request
 	 * @param PostDocument $postDocument
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function edit(Request $request, PostDocument $postDocument): Response
+	public function edit(Request $request, PostDocument $postDocument, EntityManagerInterface $entityManager): Response
 	{
         /** @var Post $post */
         $post = $postDocument->getPost();
 		$form = $this->createForm(PostDocumentType::class, $postDocument);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+			$entityManager->flush();
 			return $this->redirectToRoute('blog_post_edit', ["id" => $post->getId()]);
 		}
 
@@ -80,21 +81,20 @@ class PostDocumentController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
+	
 	/**
 	 * @Route("/{id}", name="delete", methods={"DELETE"})
 	 * @param Request $request
 	 * @param PostDocument $postDocument
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function delete(Request $request, PostDocument $postDocument): Response
+	public function delete(Request $request, PostDocument $postDocument, EntityManagerInterface $entityManager): Response
 	{
         /** @var Post $post */
         $post = $postDocument->getPost();
 
 		if ($this->isCsrfTokenValid('delete' . $postDocument->getId(), $request->request->get('_token'))) {
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->remove($postDocument);
 			$entityManager->flush();
 		}

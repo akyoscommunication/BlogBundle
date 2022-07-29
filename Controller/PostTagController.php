@@ -5,6 +5,7 @@ namespace Akyos\BlogBundle\Controller;
 use Akyos\BlogBundle\Entity\PostTag;
 use Akyos\BlogBundle\Form\PostTagType;
 use Akyos\BlogBundle\Repository\PostTagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,6 @@ class PostTagController extends AbstractController
 	 * @param PostTagRepository $postTagRepository
 	 * @param PaginatorInterface $paginator
 	 * @param Request $request
-	 *
 	 * @return Response
 	 */
 	public function index(PostTagRepository $postTagRepository, PaginatorInterface $paginator, Request $request): Response
@@ -49,21 +49,20 @@ class PostTagController extends AbstractController
 			],
 		]);
 	}
-
+	
 	/**
 	 * @Route("/new", name="new", methods={"GET","POST"})
 	 * @param Request $request
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function new(Request $request): Response
+	public function new(Request $request, EntityManagerInterface $entityManager): Response
 	{
 		$postTag = new PostTag();
 		$form = $this->createForm(PostTagType::class, $postTag);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->persist($postTag);
 			$entityManager->flush();
 
@@ -78,21 +77,21 @@ class PostTagController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
+	
 	/**
 	 * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
 	 * @param Request $request
 	 * @param PostTag $postTag
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function edit(Request $request, PostTag $postTag): Response
+	public function edit(Request $request, PostTag $postTag, EntityManagerInterface $entityManager): Response
 	{
 		$form = $this->createForm(PostTagType::class, $postTag);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+			$entityManager->flush();
 
 			return $this->redirectToRoute('blog_post_tag_index');
 		}
@@ -113,10 +112,9 @@ class PostTagController extends AbstractController
      * @param PostTag $postTag
      * @return Response
      */
-	public function delete(Request $request, PostTag $postTag): Response
+	public function delete(Request $request, PostTag $postTag, EntityManagerInterface $entityManager): Response
 	{
 		if ($this->isCsrfTokenValid('delete' . $postTag->getId(), $request->request->get('_token'))) {
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->remove($postTag);
 			$entityManager->flush();
 		}

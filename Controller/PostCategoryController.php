@@ -5,6 +5,7 @@ namespace Akyos\BlogBundle\Controller;
 use Akyos\BlogBundle\Entity\PostCategory;
 use Akyos\BlogBundle\Form\PostCategoryType;
 use Akyos\BlogBundle\Repository\PostCategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,6 @@ class PostCategoryController extends AbstractController
 	 * @param PostCategoryRepository $postCategoryRepository
 	 * @param PaginatorInterface $paginator
 	 * @param Request $request
-	 *
 	 * @return Response
 	 */
 	public function index(PostCategoryRepository $postCategoryRepository, PaginatorInterface $paginator, Request $request): Response
@@ -49,21 +49,20 @@ class PostCategoryController extends AbstractController
 			],
 		]);
 	}
-
+	
 	/**
 	 * @Route("/new", name="new", methods={"GET","POST"})
 	 * @param Request $request
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function new(Request $request): Response
+	public function new(Request $request, EntityManagerInterface $entityManager): Response
 	{
 		$postCategory = new PostCategory();
 		$form = $this->createForm(PostCategoryType::class, $postCategory);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->persist($postCategory);
 			$entityManager->flush();
 
@@ -78,21 +77,21 @@ class PostCategoryController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
+	
 	/**
 	 * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
 	 * @param Request $request
 	 * @param PostCategory $postCategory
-	 *
+	 * @param EntityManagerInterface $entityManager
 	 * @return Response
 	 */
-	public function edit(Request $request, PostCategory $postCategory): Response
+	public function edit(Request $request, PostCategory $postCategory, EntityManagerInterface $entityManager): Response
 	{
 		$form = $this->createForm(PostCategoryType::class, $postCategory);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+			$entityManager->flush();
 
 			return $this->redirectToRoute('blog_post_category_index');
 		}
@@ -106,17 +105,17 @@ class PostCategoryController extends AbstractController
 			'form' => $form->createView(),
 		]);
 	}
-
-    /**
-     * @Route("/delete/{id}", name="delete", methods={"DELETE"})
-     * @param Request $request
-     * @param PostCategory $postCategory
-     * @return Response
-     */
-	public function delete(Request $request, PostCategory $postCategory): Response
+	
+	/**
+	 * @Route("/delete/{id}", name="delete", methods={"DELETE"})
+	 * @param Request $request
+	 * @param PostCategory $postCategory
+	 * @param EntityManagerInterface $entityManager
+	 * @return Response
+	 */
+	public function delete(Request $request, PostCategory $postCategory, EntityManagerInterface $entityManager): Response
 	{
 		if ($this->isCsrfTokenValid('delete' . $postCategory->getId(), $request->request->get('_token'))) {
-			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->remove($postCategory);
 			$entityManager->flush();
 		}
