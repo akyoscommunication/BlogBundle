@@ -7,13 +7,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-	/**
-	 * @inheritDoc
-	 */
-	public function getConfigTreeBuilder(): TreeBuilder
+    /**
+     * @inheritDoc
+     */
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-		$treeBuilder = new TreeBuilder('blog_bundle');
-		
-		return $treeBuilder;
-	}
+        $treeBuilder = new TreeBuilder('blog_bundle');
+
+        return $treeBuilder;
+    }
 }
