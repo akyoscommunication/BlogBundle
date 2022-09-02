@@ -39,4 +39,10 @@ class ExtendSidebar
         }
         return new Response($template);
     }
+
+    public function getOptionsTemplate($route): Response
+    {
+        $template = '<li class="' . (strpos($route, "blog_options") !== false ? "active" : "") . '"><a href="' . $this->router->generate('blog_options') . '">Blog</a></li>';
+        return new Response($template);
+    }
 }
