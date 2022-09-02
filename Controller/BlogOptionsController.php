@@ -1,6 +1,6 @@
 <?php
 
-namespace Akyos\BlogBundle\Controller\Back;
+namespace Akyos\BlogBundle\Controller;
 
 use Akyos\BlogBundle\Entity\BlogOptions;
 use Akyos\BlogBundle\Form\BlogOptionsType;
