@@ -43,6 +43,10 @@ class BlogOptionsController extends AbstractController
 
             return $this->redirectToRoute('blog_options');
         }
-        return $this->render('@AkyosBlog/blog_options/new.html.twig', ['blog_option' => $blogOption, 'form' => $form->createView(),]);
+        return $this->render('@AkyosCms/cms_options/new.html.twig', [
+            'bundle_name' => 'Blog options',
+            'blog_option' => $blogOption,
+            'form' => $form->createView(),
+        ]);
     }
 }
