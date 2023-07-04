@@ -65,7 +65,7 @@
                                         </button>
                                     {% else %}
                                         <a class="btn btn-outline-success"
-                                           href="{{ path('post_document_new', {'id': el.id }) }}">Ajouter un élément <i
+                                           href="{{ path('blog_post_document_new', {'id': el.id }) }}">Ajouter un élément <i
                                                     class="fas fa-plus"></i></a>
                                     {% endif %}
                                 {% endif %}
@@ -86,7 +86,7 @@
                                             {{ doc.title }}
                                         </td>
                                         <td>
-                                            <form action="{{ path('core_change_position', {'route' : 'post_document', 'el' : 'PostDocument', 'id' : doc.id, 'bundle' : (bundle is defined ? bundle : null) }) }}"
+                                            <form action="{{ path('core_change_position', {'route' : 'blog_post_document', 'el' : 'PostDocument', 'id' : doc.id, 'bundle' : (bundle is defined ? bundle : null) }) }}"
                                                   method="post">
                                                 <input class="form-control" type="number" name="position"
                                                        value="{{ doc.position }}" min="0"
@@ -95,10 +95,10 @@
                                         </td>
                                         <td>
                                             <a class="btn btn-primary btn-sm"
-                                               href="{{ path('post_document_edit', {'id': doc.id}) }}"><i
+                                               href="{{ path('blog_post_document_edit', {'id': doc.id}) }}"><i
                                                         class="fas fa-pencil-alt"></i></a>
                                             <form method="post" class="not-submit index-delete"
-                                                  action="{{ path('post_document_delete', {'id': doc.id}) }}"
+                                                  action="{{ path('blog_post_document_delete', {'id': doc.id}) }}"
                                                   onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token"
