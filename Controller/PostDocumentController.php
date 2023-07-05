@@ -33,7 +33,7 @@ class PostDocumentController extends AbstractController
 
             return $this->redirectToRoute('blog_post_edit', ["id" => $post->getId()]);
         }
-        return $this->render('@AkyosCms/post_document/new.html.twig', ['parameters' => ['id' => $post->getId(), 'tab' => 'postdoc',], 'route' => 'blog_post_edit', 'el' => $postDocument, 'title' => 'Document d\'article', 'entity' => 'PostDocument', 'form' => $form->createView(),]);
+        return $this->render('@AkyosBlog/post_document/new.html.twig', ['parameters' => ['id' => $post->getId(), 'tab' => 'postdoc',], 'route' => 'blog_post_edit', 'el' => $postDocument, 'title' => 'Document d\'article', 'entity' => 'PostDocument', 'form' => $form->createView(),]);
     }
 
     /**
@@ -53,7 +53,7 @@ class PostDocumentController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('blog_post_edit', ["id" => $post->getId()]);
         }
-        return $this->render('@AkyosCms/post_document/edit.html.twig', ['parameters' => ['id' => $post->getId(), 'tab' => 'postdoc',], 'el' => $postDocument, 'title' => 'Document d\'article', 'entity' => 'PostDocument', 'route' => 'blog_post_document', 'view' => 'archive', 'form' => $form->createView(),]);
+        return $this->render('@AkyosBlog/post_document/edit.html.twig', ['parameters' => ['id' => $post->getId(), 'tab' => 'postdoc',], 'el' => $postDocument, 'title' => 'Document d\'article', 'entity' => 'PostDocument', 'route' => 'blog_post_document', 'view' => 'archive', 'form' => $form->createView(),]);
     }
 
     /**

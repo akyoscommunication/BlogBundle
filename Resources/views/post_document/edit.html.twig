@@ -5,7 +5,7 @@
 {% block page_content %}
     <div class="aky-header-page">
         <h1 class="aky-header-page__title">Éditer {{ title }}</h1>
-        <a class="btn btn-outline-dark" href="{{ path('post_edit', parameters) }}">Retour à l'édition de l'article</a>
+        <a class="btn btn-outline-dark" href="{{ path('blog_post_edit', parameters) }}">Retour à l'édition de l'article</a>
     </div>
 
     <div class="content" data-type="{{ entity is defined ? entity : '' }}"
