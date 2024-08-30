@@ -76,7 +76,6 @@ class Post implements Translatable
     private $gallery = [];
 
     #[ORM\ManyToMany(targetEntity: PostTag::class, mappedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: true)]
     private $postTags;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
