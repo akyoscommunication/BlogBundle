@@ -12,7 +12,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class PostDocument
 {
     use TimestampableEntity;
-
     public const ENTITY_SLUG = "documents_article";
 
     #[ORM\Id]
