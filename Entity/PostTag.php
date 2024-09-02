@@ -8,10 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: PostTagRepository::class)]
-class PostTag
+class PostTag implements Translatable
 {
     use TimestampableEntity;
 
@@ -22,17 +23,15 @@ class PostTag
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
     /**
-     * @Gedmo\Slug(fields={"title"})
-     * @Gedmo\Translatable
      * @SlugRedirect
      */
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 

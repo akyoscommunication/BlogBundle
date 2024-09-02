@@ -2,8 +2,8 @@
 
 namespace Akyos\BlogBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Akyos\BlogBundle\Repository\BlogOptionsRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BlogOptionsRepository::class)]
 class BlogOptions

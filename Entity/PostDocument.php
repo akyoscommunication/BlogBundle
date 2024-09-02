@@ -36,9 +36,9 @@ class PostDocument
     private $post;
 
     /**
-     * @Gedmo\Slug(fields={"title"}, updatable=false)
      * @SlugRedirect
      */
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 

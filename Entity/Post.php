@@ -2,6 +2,7 @@
 
 namespace Akyos\BlogBundle\Entity;
 
+use Akyos\BlogBundle\Repository\PostRepository;
 use Akyos\CmsBundle\Annotations\SlugRedirect;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,8 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
-use Akyos\BlogBundle\Entity\PostCategory;
-use Akyos\BlogBundle\Repository\PostRepository;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post implements Translatable
@@ -25,35 +24,27 @@ class Post implements Translatable
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
     /**
-     * @Gedmo\Slug(fields={"title"}, updatable=false)
      * @SlugRedirect
-     * @Gedmo\Translatable
      */
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 999999999999999999, nullable: true)]
     private $content;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'boolean')]
     private $published;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $thumbnail;
 
@@ -63,9 +54,7 @@ class Post implements Translatable
     #[ORM\Column(type: 'integer')]
     private $position;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $thumbnailArchive;
 

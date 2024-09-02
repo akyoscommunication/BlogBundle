@@ -2,6 +2,7 @@
 
 namespace Akyos\BlogBundle\Entity;
 
+use Akyos\BlogBundle\Repository\PostCategoryRepository;
 use Akyos\CmsBundle\Annotations\SlugRedirect;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,8 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
-use Akyos\BlogBundle\Entity\Post;
-use Akyos\BlogBundle\Repository\PostCategoryRepository;
 
 #[ORM\Entity(repositoryClass: PostCategoryRepository::class)]
 class PostCategory implements Translatable
