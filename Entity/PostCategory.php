@@ -16,7 +16,7 @@ class PostCategory implements Translatable
 {
     use TimestampableEntity;
 
-    public const string ENTITY_SLUG = 'post_category';
+    public const ENTITY_SLUG = 'post_category';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
