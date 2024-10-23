@@ -61,7 +61,7 @@ class PostController extends AbstractController
         if ($crudHandler->new($newPostForm, $request)) {
             return $this->redirectToRoute('blog_post_edit', ['id' => $post->getId()]);
         }
-        return $this->render('@AkyosCms/crud/index.html.twig', ['els' => $els, 'title' => 'Article', 'entity' => Post::class, 'view' => 'single', 'route' => 'blog_post', 'formModal' => $newPostForm->createView(), 'bundle' => 'CoreBundle', 'fields' => ['ID' => 'Id', 'Title' => 'Title', 'Catégorie(s)' => 'PostCategories', 'Position' => 'Position', 'En ligne ?' => 'Published', 'Publié le' => 'PublishedAt', 'Mis à jour le' => 'UpdatedAt',],]);
+        return $this->render('@AkyosCms/crud/index.html.twig', ['els' => $els, 'title' => 'Article', 'entity' => Post::class, 'view' => 'single', 'route' => 'blog_post', 'formModal' => $newPostForm->createView(), 'bundle' => 'CmsBundle', 'fields' => ['ID' => 'Id', 'Title' => 'Title', 'Catégorie(s)' => 'PostCategories', 'Position' => 'Position', 'En ligne ?' => 'Published', 'Publié le' => 'PublishedAt', 'Mis à jour le' => 'UpdatedAt',],]);
     }
 
     /**
