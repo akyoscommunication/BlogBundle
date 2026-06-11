@@ -27,9 +27,7 @@ class PostTag implements Translatable
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * @SlugRedirect
-     */
+    #[SlugRedirect]
     #[Gedmo\Slug(fields: ['title'], updatable: false)]
     #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]

@@ -6,11 +6,11 @@ use Akyos\BlogBundle\Entity\BlogOptions;
 use Akyos\BlogBundle\Form\BlogOptionsType;
 use Akyos\BlogBundle\Repository\BlogOptionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin/blog/options', name: 'blog_options')]
 class BlogOptionsController extends AbstractController

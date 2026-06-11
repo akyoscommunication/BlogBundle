@@ -23,23 +23,17 @@ class PostCategory implements Translatable
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * @Gedmo\Slug(fields={"title"})
-     * @Gedmo\Translatable
-     * @SlugRedirect
-     */
+    #[SlugRedirect]
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    /**
-     * @Gedmo\Translatable
-     */
+    #[Gedmo\Translatable]
     #[ORM\Column(type: 'text', nullable: true)]
     private $content;
 

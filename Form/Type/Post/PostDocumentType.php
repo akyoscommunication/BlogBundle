@@ -12,12 +12,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostDocumentType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', null, ['label' => 'Titre', 'help' => 'Insérez votre titre ici', 'required' => true])->add('file', FileManagerType::class, ['label' => 'Document', 'required' => true])->add('content', CKEditorType::class, ['label' => 'Contenu'])->add('private', CheckboxType::class, ['label' => 'Est-ce que ce document doit être privé?', 'required' => false])->add('position', null, ['required' => true]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => PostDocument::class,]);
     }

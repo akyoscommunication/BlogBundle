@@ -3,7 +3,7 @@
 namespace Akyos\BlogBundle\Entity;
 
 use Akyos\BlogBundle\Repository\PostDocumentRepository;
-use Akyos\Cmsbundle\Annotations\SlugRedirect;
+use Akyos\CmsBundle\Annotations\SlugRedirect;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -35,9 +35,7 @@ class PostDocument
     #[ORM\JoinColumn(nullable: false)]
     private $post;
 
-    /**
-     * @SlugRedirect
-     */
+    #[SlugRedirect]
     #[Gedmo\Slug(fields: ['title'], updatable: false)]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
