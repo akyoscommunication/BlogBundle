@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akyos\BlogBundle\Twig;
 
 use Akyos\BlogBundle\Repository\BlogOptionsRepository;
@@ -8,11 +10,8 @@ use Twig\Extension\GlobalsInterface;
 
 class GlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
-    protected BlogOptionsRepository $blogOptionsRepository;
-
-    public function __construct(BlogOptionsRepository $blogOptionsRepository)
+    public function __construct(protected BlogOptionsRepository $blogOptionsRepository)
     {
-        $this->blogOptionsRepository = $blogOptionsRepository;
     }
 
     /**

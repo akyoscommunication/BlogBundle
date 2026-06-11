@@ -12,7 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: PostCategoryRepository::class)]
-class PostCategory implements Translatable
+class PostCategory implements Translatable, \Stringable
 {
     use TimestampableEntity;
 
@@ -112,8 +112,8 @@ class PostCategory implements Translatable
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->title;
+        return (string) $this->title;
     }
 }

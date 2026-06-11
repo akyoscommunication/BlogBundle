@@ -32,7 +32,7 @@ class CustomFieldValueType extends AbstractType
 
     private array $posts;
 
-    private EntityManagerInterface $em;
+    private readonly EntityManagerInterface $em;
 
     public function __construct(PageRepository $pageRepository, PostRepository $postRepository, EntityManagerInterface $em)
     {
@@ -49,8 +49,8 @@ class CustomFieldValueType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $formModifier = function (FormInterface $form, CustomFieldValue $customFieldValue = null) {
-            if ($customFieldValue !== null) {
+        $formModifier = function (FormInterface $form, ?CustomFieldValue $customFieldValue = null): void {
+            if ($customFieldValue instanceof \Akyos\CmsBundle\Entity\CustomFieldValue) {
                 /** @var CustomField $field */
                 $field = $customFieldValue->getCustomField();
                 switch ($field->getType()) {
@@ -107,7 +107,7 @@ class CustomFieldValueType extends AbstractType
 
                     case 'select':
                         $choices = [];
-                        $values = explode('|', $field->getOptions());
+                        $values = explode('|', (string) $field->getOptions());
                         $fieldOptions = array_slice($values, 1);
                         foreach ($fieldOptions as $option) {
                             $vs = explode(';', $option);
@@ -138,7 +138,7 @@ class CustomFieldValueType extends AbstractType
             }
         };
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($formModifier) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($formModifier): void {
             // this would be your entity, i.e. SportMeetup
             $data = $event->getData();
             $formModifier($event->getForm(), $data);

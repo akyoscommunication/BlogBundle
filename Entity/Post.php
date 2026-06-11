@@ -13,7 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-class Post implements Translatable
+class Post implements Translatable, \Stringable
 {
     use TimestampableEntity;
 

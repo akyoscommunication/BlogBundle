@@ -25,11 +25,7 @@ class BlogOptionsController extends AbstractController
     public function index(BlogOptionsRepository $blogOptionsRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $blogOption = $blogOptionsRepository->findAll();
-        if (!$blogOption) {
-            $blogOption = new BlogOptions();
-        } else {
-            $blogOption = $blogOption[0];
-        }
+        $blogOption = $blogOption ? $blogOption[0] : new BlogOptions();
         $entities = [];
         $meta = $entityManager->getMetadataFactory()->getAllMetadata();
         foreach ($meta as $m) {

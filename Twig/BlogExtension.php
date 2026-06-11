@@ -13,7 +13,7 @@ class BlogExtension extends AbstractExtension
      */
     public function getFunctions(): array
     {
-        return [new TwigFunction('hasCategory', [$this, 'hasCategory']),];
+        return [new TwigFunction('hasCategory', $this->hasCategory(...)),];
     }
 
     /**

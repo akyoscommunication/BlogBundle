@@ -12,7 +12,7 @@ use Gedmo\Translatable\Translatable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: PostTagRepository::class)]
-class PostTag implements Translatable
+class PostTag implements Translatable, \Stringable
 {
     use TimestampableEntity;
 

@@ -98,7 +98,7 @@ class PostController extends AbstractController
     #[Route(path: '/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, BlogOptionsRepository $blogOptionsRepository, CmsService $cmsService, ContainerInterface $container, EntityManagerInterface $entityManager): Response
     {
-        $entity = get_class($post);
+        $entity = $post::class;
         $blogOptions = $blogOptionsRepository->findAll();
         if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
@@ -138,7 +138,7 @@ class PostController extends AbstractController
     #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Request $request, Post $post, PostRepository $postRepository, BlogOptionsRepository $blogOptionsRepository, SeoRepository $seoRepository, CmsService $cmsService, ContainerInterface $container, EntityManagerInterface $entityManager): Response
     {
-        $entity = get_class($post);
+        $entity = $post::class;
         $blogOptions = $blogOptionsRepository->findAll();
         if ($blogOptions && !$blogOptions[0]->getHasPosts()) {
             return $this->redirectToRoute('cms_index');
